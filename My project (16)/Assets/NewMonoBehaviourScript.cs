@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class NewMonoBehaviourScript : MonoBehaviour
 {
@@ -44,7 +45,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
-        if(moveInput.magnitude > 0)
+        if (moveInput.magnitude > 0)
         {
             myAnimator.SetBool("move", true);
         }
@@ -52,7 +53,19 @@ public class NewMonoBehaviourScript : MonoBehaviour
         {
             myAnimator.SetBool("move", false);
         }
-            transform.Translate(Vector3.right * moveSpeed * moveInput.x * Time.deltaTime);
+        transform.Translate(Vector3.right * moveSpeed * moveInput.x * Time.deltaTime);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.name == "Death")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        else
+        {
+            SceneManager.LoadScene("PlayScene_" + collision.name);
+        }
+    }
 }
+
