@@ -10,6 +10,13 @@ public class NewMonoBehaviourScript : MonoBehaviour
     private Rigidbody2D rb;
     private Animator myAnimator;
 
+    float score;
+
+    private void Awake()
+    {
+        score = 0f;
+    }
+
     public void OnMove(InputValue value)
     {
         moveInput = value.Get<Vector2>();
@@ -22,10 +29,7 @@ public class NewMonoBehaviourScript : MonoBehaviour
         myAnimator = GetComponent<Animator>();
         myAnimator.SetBool("move", false);
     }
-    public void OnMovea(InputValue value)
-    {
-        moveInput = value.Get<Vector2>();
-    }
+   
     public void OnJump(InputValue value)
     {
         if (value.isPressed)
@@ -65,6 +69,8 @@ public class NewMonoBehaviourScript : MonoBehaviour
         else
         {
             SceneManager.LoadScene("PlayScene_" + collision.name);
+            HighScore.TrySet(SceneManager.GetActiveScene().buildIndex, (int)score);
+            score += 10f;
         }
     }
 }
